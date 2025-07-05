@@ -1,0 +1,12 @@
+dependencies:
+- name: ingress-nginx
+  repository: file://charts/ingress-nginx
+  version: 4.12.3
+- name: kubernetes-dashboard
+  repository: file://charts/kubernetes-dashboard
+  version: 7.13.0
+- name: argo-cd
+  repository: file://charts/argo-cd
+  version: 8.1.2
+digest: sha256:95a9d6a37d670257ba10f211d506c98082ccf3093ef3bdb7a1f08d20fe8426c5
+generated: "2025-07-05T16:59:24.9312898+02:00"
