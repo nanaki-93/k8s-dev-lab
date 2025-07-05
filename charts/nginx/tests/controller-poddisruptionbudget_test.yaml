@@ -13,7 +13,7 @@ tests:
           of: PodDisruptionBudget
       - equal:
           path: metadata.name
-          value: RELEASE-NAME-ingress-nginx-controller
+          value: RELEASE-NAME-nginx-controller
 
   - it: should not create a PodDisruptionBudget if `controller.replicaCount` is less than or equal 1
     set:
@@ -33,7 +33,7 @@ tests:
           of: PodDisruptionBudget
       - equal:
           path: metadata.name
-          value: RELEASE-NAME-ingress-nginx-controller
+          value: RELEASE-NAME-nginx-controller
 
   - it: should not create a PodDisruptionBudget if `controller.autoscaling.enabled` is true and `controller.autoscaling.minReplicas` is less than or equal 1
     set:
@@ -54,7 +54,7 @@ tests:
           of: PodDisruptionBudget
       - equal:
           path: metadata.name
-          value: RELEASE-NAME-ingress-nginx-controller
+          value: RELEASE-NAME-nginx-controller
 
   - it: should not create a PodDisruptionBudget if `controller.keda.enabled` is true and `controller.keda.minReplicas` is less than or equal 1
     set:

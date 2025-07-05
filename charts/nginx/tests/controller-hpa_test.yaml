@@ -13,7 +13,7 @@ tests:
           of: HorizontalPodAutoscaler
       - equal:
           path: metadata.name
-          value: RELEASE-NAME-ingress-nginx-controller
+          value: RELEASE-NAME-nginx-controller
 
   - it: should not create an HPA if `controller.autoscaling.enabled` is true and `controller.keda.enabled` is true
     set:

@@ -271,7 +271,7 @@ controller:
   #         - key: app.kubernetes.io/name
   #           operator: In
   #           values:
-  #           - '{{ include "ingress-nginx.name" . }}'
+  #           - '{{ include "nginx.name" . }}'
   #         - key: app.kubernetes.io/instance
   #           operator: In
   #           values:
@@ -290,7 +290,7 @@ controller:
   #       - key: app.kubernetes.io/name
   #         operator: In
   #         values:
-  #         - '{{ include "ingress-nginx.name" . }}'
+  #         - '{{ include "nginx.name" . }}'
   #       - key: app.kubernetes.io/instance
   #         operator: In
   #         values:
@@ -307,7 +307,7 @@ controller:
   topologySpreadConstraints: []
   # - labelSelector:
   #     matchLabels:
-  #       app.kubernetes.io/name: '{{ include "ingress-nginx.name" . }}'
+  #       app.kubernetes.io/name: '{{ include "nginx.name" . }}'
   #       app.kubernetes.io/instance: '{{ .Release.Name }}'
   #       app.kubernetes.io/component: controller
   #   matchLabelKeys:
@@ -317,7 +317,7 @@ controller:
   #   whenUnsatisfiable: ScheduleAnyway
   # - labelSelector:
   #     matchLabels:
-  #       app.kubernetes.io/name: '{{ include "ingress-nginx.name" . }}'
+  #       app.kubernetes.io/name: '{{ include "nginx.name" . }}'
   #       app.kubernetes.io/instance: '{{ .Release.Name }}'
   #       app.kubernetes.io/component: controller
   #   matchLabelKeys:
@@ -715,7 +715,7 @@ controller:
   # - name: mytestmodule
   #   image:
   #     # registry: registry.k8s.io
-  #     image: ingress-nginx/mytestmodule
+  #     image: nginx/mytestmodule
   #     ## for backwards compatibility consider setting the full image url via the repository value below
   #     ## use *either* current default registry/image or repository format or installing chart by providing the values.yaml will fail
   #     ## repository:
@@ -1064,7 +1064,7 @@ defaultBackend:
   #         - key: app.kubernetes.io/name
   #           operator: In
   #           values:
-  #           - '{{ include "ingress-nginx.name" . }}'
+  #           - '{{ include "nginx.name" . }}'
   #         - key: app.kubernetes.io/instance
   #           operator: In
   #           values:
@@ -1083,7 +1083,7 @@ defaultBackend:
   #       - key: app.kubernetes.io/name
   #         operator: In
   #         values:
-  #         - '{{ include "ingress-nginx.name" . }}'
+  #         - '{{ include "nginx.name" . }}'
   #       - key: app.kubernetes.io/instance
   #         operator: In
   #         values:
@@ -1099,7 +1099,7 @@ defaultBackend:
   topologySpreadConstraints: []
   # - labelSelector:
   #     matchLabels:
-  #       app.kubernetes.io/name: '{{ include "ingress-nginx.name" . }}'
+  #       app.kubernetes.io/name: '{{ include "nginx.name" . }}'
   #       app.kubernetes.io/instance: '{{ .Release.Name }}'
   #       app.kubernetes.io/component: default-backend
   #   matchLabelKeys:
@@ -1109,7 +1109,7 @@ defaultBackend:
   #   whenUnsatisfiable: ScheduleAnyway
   # - labelSelector:
   #     matchLabels:
-  #       app.kubernetes.io/name: '{{ include "ingress-nginx.name" . }}'
+  #       app.kubernetes.io/name: '{{ include "nginx.name" . }}'
   #       app.kubernetes.io/instance: '{{ .Release.Name }}'
   #       app.kubernetes.io/component: default-backend
   #   matchLabelKeys:

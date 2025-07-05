@@ -13,7 +13,7 @@ tests:
           of: DaemonSet
       - equal:
           path: metadata.name
-          value: RELEASE-NAME-ingress-nginx-controller
+          value: RELEASE-NAME-nginx-controller
 
   - it: should create a DaemonSet with argument `--enable-metrics=true` if `controller.metrics.enabled` is true
     set:
@@ -33,14 +33,14 @@ tests:
           path: spec.template.spec.containers[0].args
           content: --enable-metrics=true
 
-  - it: should create a DaemonSet with argument `--controller-class=k8s.io/ingress-nginx-internal` if `controller.ingressClassResource.controllerValue` is "k8s.io/ingress-nginx-internal"
+  - it: should create a DaemonSet with argument `--controller-class=k8s.io/nginx-internal` if `controller.ingressClassResource.controllerValue` is "k8s.io/nginx-internal"
     set:
       controller.kind: DaemonSet
-      controller.ingressClassResource.controllerValue: k8s.io/ingress-nginx-internal
+      controller.ingressClassResource.controllerValue: k8s.io/nginx-internal
     asserts:
       - contains:
           path: spec.template.spec.containers[0].args
-          content: --controller-class=k8s.io/ingress-nginx-internal
+          content: --controller-class=k8s.io/nginx-internal
 
   - it: should create a DaemonSet with resource limits if `controller.resources.limits` is set
     set:
@@ -61,7 +61,7 @@ tests:
       controller.topologySpreadConstraints:
         - labelSelector:
             matchLabels:
-              app.kubernetes.io/name: '{{ include "ingress-nginx.name" . }}'
+              app.kubernetes.io/name: '{{ include "nginx.name" . }}'
               app.kubernetes.io/instance: '{{ .Release.Name }}'
               app.kubernetes.io/component: controller
           topologyKey: topology.kubernetes.io/zone
@@ -69,7 +69,7 @@ tests:
           whenUnsatisfiable: ScheduleAnyway
         - labelSelector:
             matchLabels:
-              app.kubernetes.io/name: '{{ include "ingress-nginx.name" . }}'
+              app.kubernetes.io/name: '{{ include "nginx.name" . }}'
               app.kubernetes.io/instance: '{{ .Release.Name }}'
               app.kubernetes.io/component: controller
           topologyKey: kubernetes.io/hostname
@@ -81,7 +81,7 @@ tests:
           value:
             - labelSelector:
                 matchLabels:
-                  app.kubernetes.io/name: ingress-nginx
+                  app.kubernetes.io/name: nginx
                   app.kubernetes.io/instance: RELEASE-NAME
                   app.kubernetes.io/component: controller
               topologyKey: topology.kubernetes.io/zone
@@ -89,7 +89,7 @@ tests:
               whenUnsatisfiable: ScheduleAnyway
             - labelSelector:
                 matchLabels:
-                  app.kubernetes.io/name: ingress-nginx
+                  app.kubernetes.io/name: nginx
                   app.kubernetes.io/instance: RELEASE-NAME
                   app.kubernetes.io/component: controller
               topologyKey: kubernetes.io/hostname
@@ -107,7 +107,7 @@ tests:
                   - key: app.kubernetes.io/name
                     operator: In
                     values:
-                      - '{{ include "ingress-nginx.name" . }}'
+                      - '{{ include "nginx.name" . }}'
                   - key: app.kubernetes.io/instance
                     operator: In
                     values:
@@ -128,7 +128,7 @@ tests:
                       - key: app.kubernetes.io/name
                         operator: In
                         values:
-                          - ingress-nginx
+                          - nginx
                       - key: app.kubernetes.io/instance
                         operator: In
                         values:
@@ -157,7 +157,7 @@ tests:
     asserts:
       - equal:
           path: spec.template.spec.containers[0].image
-          value: custom.registry.io/ingress-nginx/controller:v1.0.0-dev@sha256:faa2d18687f734994b6bd9e309e7a73852a81c30e1b8f63165fcd4f0a087e3cd
+          value: custom.registry.io/nginx/controller:v1.0.0-dev@sha256:faa2d18687f734994b6bd9e309e7a73852a81c30e1b8f63165fcd4f0a087e3cd
 
   - it: should create a DaemonSet with a custom registry if `controller.image.registry` is set
     set:
@@ -168,7 +168,7 @@ tests:
     asserts:
       - equal:
           path: spec.template.spec.containers[0].image
-          value: custom.registry.io/ingress-nginx/controller:v1.0.0-dev@sha256:faa2d18687f734994b6bd9e309e7a73852a81c30e1b8f63165fcd4f0a087e3cd
+          value: custom.registry.io/nginx/controller:v1.0.0-dev@sha256:faa2d18687f734994b6bd9e309e7a73852a81c30e1b8f63165fcd4f0a087e3cd
 
   - it: should create a DaemonSet with a custom image if `controller.image.image` is set
     set:
@@ -189,7 +189,7 @@ tests:
     asserts:
       - equal:
           path: spec.template.spec.containers[0].image
-          value: registry.k8s.io/ingress-nginx/controller:custom-tag@sha256:faa2d18687f734994b6bd9e309e7a73852a81c30e1b8f63165fcd4f0a087e3cd
+          value: registry.k8s.io/nginx/controller:custom-tag@sha256:faa2d18687f734994b6bd9e309e7a73852a81c30e1b8f63165fcd4f0a087e3cd
 
   - it: should create a DaemonSet with token auto-mounting disabled if `serviceAccount.automountServiceAccountToken` is false
     set:

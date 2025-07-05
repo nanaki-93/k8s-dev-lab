@@ -20,7 +20,7 @@ tests:
           of: Service
       - equal:
           path: metadata.name
-          value: RELEASE-NAME-ingress-nginx-controller-admission
+          value: RELEASE-NAME-nginx-controller-admission
 
   - it: should create a webhook Service with a custom port if `controller.admissionWebhooks.service.servicePort` is set
     set:

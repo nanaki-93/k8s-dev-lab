@@ -55,11 +55,11 @@ tests:
           path: metadata.annotations.my-fancy-annotation
           value: has-a-value
 
-  - it: should create an IngressClass alias with controller "k8s.io/ingress-nginx-internal" if `controller.ingressClassResource.controllerValue` is "k8s.io/ingress-nginx-internal"
+  - it: should create an IngressClass alias with controller "k8s.io/nginx-internal" if `controller.ingressClassResource.controllerValue` is "k8s.io/nginx-internal"
     set:
       controller.ingressClassResource.aliases:
         - nginx-alias
-      controller.ingressClassResource.controllerValue: k8s.io/ingress-nginx-internal
+      controller.ingressClassResource.controllerValue: k8s.io/nginx-internal
     asserts:
       - hasDocuments:
           count: 1
@@ -70,7 +70,7 @@ tests:
           value: nginx-alias
       - equal:
           path: spec.controller
-          value: k8s.io/ingress-nginx-internal
+          value: k8s.io/nginx-internal
 
   - it: should create an IngressClass alias with parameters if `controller.ingressClassResource.parameters` is set
     set:
