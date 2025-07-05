@@ -26,13 +26,13 @@ maintainers:
     email: andreose.marco093@gmail.com
 kubeVersion: ">=1.21.0-0"
 dependencies:
-  - name: ingress-nginx
+  - name: nginx
     alias: nginx
-    version: 4.12.3
-    repository: file://charts/ingress-nginx
-  - name: kubernetes-dashboard
-    version: 7.13.0
-    repository: file://charts/kubernetes-dashboard
+    version: 1.0.0
+    repository: file://charts/nginx
+  - name: k8s-dashboard
+    version: 1.0.0
+    repository: file://charts/k8s-dashboard
   - name: argo-cd
-    version: 8.1.2
+    version: 1.0.0
     repository: file://charts/argo-cd

@@ -13,7 +13,7 @@ tests:
   - it: should create a Certificate if `controller.admissionWebhooks.certManager.enabled` is true
     set:
       controller.admissionWebhooks.certManager.enabled: true
-      controller.admissionWebhooks.certManager.issuerRef: ingress-nginx-issuer
+      controller.admissionWebhooks.certManager.issuerRef: nginx-issuer
     asserts:
       - hasDocuments:
           count: 1
@@ -21,12 +21,12 @@ tests:
           of: Certificate
       - equal:
           path: metadata.name
-          value: RELEASE-NAME-ingress-nginx-admission
+          value: RELEASE-NAME-nginx-admission
 
   - it: should create a Certificate with `revisionHistoryLimit` if `controller.admissionWebhooks.certManager.admissionCert.revisionHistoryLimit` is set
     set:
       controller.admissionWebhooks.certManager.enabled: true
-      controller.admissionWebhooks.certManager.issuerRef: ingress-nginx-issuer
+      controller.admissionWebhooks.certManager.issuerRef: nginx-issuer
       controller.admissionWebhooks.certManager.admissionCert.revisionHistoryLimit: 3
     asserts:
       - equal:

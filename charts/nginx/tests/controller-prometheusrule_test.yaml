@@ -14,7 +14,7 @@ tests:
           of: PrometheusRule
       - equal:
           path: metadata.name
-          value: RELEASE-NAME-ingress-nginx-controller
+          value: RELEASE-NAME-nginx-controller
 
   - it: should create a PrometheusRule with annotations if `controller.metrics.prometheusRule.annotations` is set
     set:

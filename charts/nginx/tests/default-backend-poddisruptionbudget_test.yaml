@@ -14,7 +14,7 @@ tests:
           of: PodDisruptionBudget
       - equal:
           path: metadata.name
-          value: RELEASE-NAME-ingress-nginx-defaultbackend
+          value: RELEASE-NAME-nginx-defaultbackend
 
   - it: should not create a PodDisruptionBudget if `defaultBackend.replicaCount` is less than or equal 1
     set:
@@ -36,7 +36,7 @@ tests:
           of: PodDisruptionBudget
       - equal:
           path: metadata.name
-          value: RELEASE-NAME-ingress-nginx-defaultbackend
+          value: RELEASE-NAME-nginx-defaultbackend
 
   - it: should not create a PodDisruptionBudget if `defaultBackend.autoscaling.enabled` is true and `defaultBackend.autoscaling.minReplicas` is less than or equal 1
     set:

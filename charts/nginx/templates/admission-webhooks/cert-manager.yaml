@@ -24,11 +24,11 @@ spec:
   {{- end }}
   issuerRef:
     name: {{ include "ingress-nginx.fullname" . }}-self-signed-issuer
-  commonName: "ca.webhook.ingress-nginx"
+  commonName: "ca.webhook.nginx"
   isCA: true
   subject:
     organizations:
-      - ingress-nginx
+      - nginx
 ---
 # Create an Issuer that uses the above generated CA certificate to issue certs
 apiVersion: cert-manager.io/v1
@@ -65,5 +65,5 @@ spec:
     - {{ include "ingress-nginx.controller.fullname" . }}-admission.{{ include "ingress-nginx.namespace" . }}.svc
   subject:
     organizations:
-      - ingress-nginx-admission
+      - nginx-admission
 {{- end -}}
