@@ -413,7 +413,7 @@ nginx:
     ingressClassResource:
       name: internal-nginx
       default: false
-      controllerValue: k8s.io/internal-nginx
+      controllerValue: k8s.io/internal-ingress-nginx
     service:
       type: ClusterIP
 

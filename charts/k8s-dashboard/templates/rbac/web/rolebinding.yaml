@@ -22,7 +22,6 @@ metadata:
   annotations:
     {{- include "kubernetes-dashboard.annotations" . | nindent 4 }}
   name: {{ template "kubernetes-dashboard.fullname" . }}-{{ .Values.web.role }}
-  namespace: {{ include "kubernetes-dashboard.namespace" . }}
 roleRef:
   apiGroup: rbac.authorization.k8s.io
   kind: Role
