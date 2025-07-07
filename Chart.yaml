@@ -30,9 +30,6 @@ dependencies:
     alias: nginx
     version: 1.0.0
     repository: file://charts/nginx
-  - name: k8s-dashboard
-    version: 1.0.0
-    repository: file://charts/k8s-dashboard
   - name: argo-cd
     version: 1.0.0
     repository: file://charts/argo-cd

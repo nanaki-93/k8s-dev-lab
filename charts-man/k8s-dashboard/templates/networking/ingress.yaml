@@ -1,22 +1,21 @@
 apiVersion: networking.k8s.io/v1
 kind: Ingress
 metadata:
-  name: aki-cluster-k8s-dashboard-ingress
   namespace: k8s-dashboard
+  name: k8s-dashboard-ingress
   annotations:
-    kubernetes.io/ingress.class: nginx
     nginx.ingress.kubernetes.io/backend-protocol: "HTTPS"
     nginx.ingress.kubernetes.io/ssl-passthrough: "true"
 spec:
   ingressClassName: nginx
   rules:
-    - host: k8s.aki.local  # Replace with your desired hostname
+    - host: k8s.aki.local
       http:
         paths:
           - path: /
             pathType: Prefix
             backend:
               service:
-                name: kubernetes-dashboard
+                name: k8s-dashboard-kong-proxy
                 port:
                   number: 443
