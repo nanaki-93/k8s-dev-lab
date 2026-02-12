@@ -1,0 +1,27 @@
+apiVersion: argoproj.io/v1alpha1
+kind: Application
+metadata:
+  name: test-web
+  namespace: argocd
+spec:
+  project: default
+  source:
+    # For OCI registries, the repoURL is just the registry host (and port if needed)
+    repoURL: d-reg.aki.local
+    # The name of the chart you pushed to the registry
+    chart: test-web
+    # For OCI, targetRevision is the version of the chart (e.g., 0.1.0 or latest)
+    targetRevision: 0.1.2
+    helm:
+      parameters:
+        - name: "image.pullPolicy"
+          value: "Always"
+  destination:
+    server: https://kubernetes.default.svc
+    namespace: default
+  syncPolicy:
+    automated:
+      prune: true
+      selfHeal: true
+    syncOptions:
+      - CreateNamespace=true

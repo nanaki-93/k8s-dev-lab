@@ -1,0 +1,107 @@
+# Argo CD configuration for official Helm Chart v5.51.6
+nameOverride: argocd
+fullnameOverride: "argocd"
+namespaceOverride: argocd
+
+global:
+  domain: argocd.aki.local
+  highAvailability:
+    enabled: false # Ensure HA is disabled for local lab
+  hostAliases:
+    - ip: "172.18.0.100" # Your MetalLB IP
+      hostnames:
+        - d-reg.aki.local
+
+
+configs:
+  tls:
+    create: false
+  cm:
+    create: true
+    admin.enabled: true
+    # Point Argo to your local registry
+    repositories: |
+      - url: d-reg.aki.local
+        type: helm
+        name: local-registry
+        enableOCI: true
+
+  # Recommended for local dev behind Nginx
+  params:
+    server.insecure: true
+
+  # Routing fix for cluster-internal communication
+  hostAliases:
+    - ip: "172.18.0.100"
+      hostnames:
+        - d-reg.aki.local
+
+controller:
+  replicas: 1
+
+dex:
+  enabled: true
+
+redis:
+  enabled: true
+  topologySpreadConstraints: [] # Fix for the template error
+  # Standalone Redis doesn't need externalTrafficPolicy
+
+server:
+  replicas: 1
+  ingress:
+    enabled: true
+    controller: nginx
+    ingressClassName: nginx
+    hostname: argocd.aki.local
+    pathType: ImplementationSpecific
+    extraHosts:
+      - name: grpc.argocd.aki.local
+        path: /
+        pathType: ImplementationSpecific
+    annotations:
+      kubernetes.io/ingress.class: nginx
+      cert-manager.io/cluster-issuer: aki-ca-issuer
+      nginx.ingress.kubernetes.io/backend-protocol: "HTTP"
+      nginx.ingress.kubernetes.io/ssl-redirect: "true"
+    tls:
+      - secretName: argocd-server-tls
+        hosts:
+          - argocd.aki.local
+          - grpc.argocd.aki.local
+
+  # DISABLE the dedicated gRPC ingress to stop the conflict
+  ingressGrpc:
+    enabled: false
+
+  service:
+    type: ClusterIP # Changed from LoadBalancer to use Nginx Ingress
+    # Removed externalTrafficPolicy since it's now a ClusterIP
+    servicePortHttp: 8080  # This fixes the Ingress backend port
+    servicePortHttps: 443
+
+  containerPorts:
+    server: 8080
+  # Trust your Root CA for OCI connections
+  volumes:
+    - name: custom-ca
+      secret:
+        secretName: aki-root-ca
+        items:
+          - key: tls.crt
+            path: aki-local-ca.crt
+  volumeMounts:
+    - name: custom-ca
+      mountPath: /home/argocd/aki-local-ca.crt
+      subPath: aki-local-ca.crt
+
+repoServer:
+  replicas: 1
+
+
+# Ensure HA Redis is fully disabled
+redis-ha:
+  enabled: false
+
+notifications:
+  enabled: false # Set to true if needed, otherwise keep disabled to save resources
