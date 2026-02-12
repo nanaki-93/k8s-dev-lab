@@ -1,0 +1,34 @@
+image:
+  repository: registry
+  tag: 2.8.3
+  pullPolicy: IfNotPresent
+persistence:
+  enabled: true
+  size: 10Gi
+  accessMode: ReadWriteOnce
+
+service:
+  type: ClusterIP
+  port: 5000
+
+# Optional: If you want to use your NGINX ingress to push without port-forward
+ingress:
+  enabled: true
+  className: nginx
+  servicePort: 5000
+  path: /
+  hosts:
+    - d-reg.aki.local
+  tls:
+    - hosts:
+        - d-reg.aki.local
+      secretName: d-reg-tls-cert
+  annotations:
+    cert-manager.io/cluster-issuer: aki-ca-issuer # This triggers cert-manager to sign the cert with your Root CA
+    kubernetes.io/ingress.class: nginx
+    nginx.ingress.kubernetes.io/backend-protocol: "HTTP" # The Registry pod is HTTP
+    nginx.ingress.kubernetes.io/ssl-redirect: "true"
+    nginx.ingress.kubernetes.io/proxy-buffering: "off"
+    nginx.ingress.kubernetes.io/proxy-body-size: "0"
+    nginx.ingress.kubernetes.io/proxy-read-timeout: "600"
+    nginx.ingress.kubernetes.io/proxy-send-timeout: "600"
