@@ -1,1 +1,24 @@
-.tgz
+# Terraform
+*.tfstate
+*.tfstate.*
+.terraform/
+.terraform.lock.hcl
+*.tfvars
+!terraform.tfvars.example
+
+# Certificates and Keys
+*.key
+*.crt
+*.pem
+aki-local.key
+aki-local.crt
+
+# Kubeconfig
+**/config
+
+# IDE
+.idea/
+*.iml
+
+# OS
+.DS_Store
