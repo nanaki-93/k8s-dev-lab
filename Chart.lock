@@ -1,9 +1,0 @@
-dependencies:
-- name: nginx
-  repository: file://charts/nginx
-  version: 1.0.0
-- name: argo-cd
-  repository: file://charts/argo-cd
-  version: 1.0.0
-digest: sha256:48768d4e0343062f88600b94fb858edb58af03f045f543b08bbfdf2e0320c410
-generated: "2025-07-07T01:32:13.2555597+02:00"
