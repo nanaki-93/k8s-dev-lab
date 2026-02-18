@@ -25,22 +25,36 @@ variable "nginx_namespace" {
   }
 }
 
-variable "k8s_dashboard_namespace" {
+variable "kind_node_names" {
+  type        = list(string)
+  description = "Names of the Kind Docker containers (nodes)"
+  default     = ["aki-cluster-control-plane", "aki-cluster-worker", "aki-cluster-worker2"]
+}
+
+variable "cluster_name" {
   type        = string
-  default     = "k8s-dashboard"
-  description = "Namespace for Kubernetes Dashboard deployment"
+  default     = "aki-cluster"
+  description = "Name of the Kind cluster"
   validation {
-    condition     = can(regex("^[a-z0-9-]+$", var.k8s_dashboard_namespace))
-    error_message = "The namespace must consist of lower case alphanumeric characters or '-'."
+    condition     = can(regex("^[a-z0-9-]+$", var.cluster_name))
+    error_message = "Cluster name must be lowercase alphanumeric or hyphens."
   }
 }
 
-variable "scdf_namespace" {
+variable "generate_ca_cert" {
+  type        = bool
+  default     = true
+  description = "If true, generates a new Root CA cert/key. If false, uses existing aki-local.crt and aki-local.key files."
+}
+
+variable "registry_host" {
   type        = string
-  default     = "scdf"
-  description = "Namespace for Spring Cloud Data Flow"
-  validation {
-    condition     = can(regex("^[a-z0-9-]+$", var.scdf_namespace))
-    error_message = "The namespace must consist of lower case alphanumeric characters or '-'."
-  }
+  default     = "d-reg.aki.local"
+  description = "Hostname of the private Docker registry"
+}
+
+variable "registry_ip" {
+  type        = string
+  default     = "172.18.0.100"
+  description = "IP address of the private Docker registry (MetalLB LB IP)"
 }

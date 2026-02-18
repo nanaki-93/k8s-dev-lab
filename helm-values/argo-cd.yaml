@@ -40,7 +40,7 @@ controller:
   replicas: 1
 
 dex:
-  enabled: true
+  enabled: false
 
 redis:
   enabled: true
