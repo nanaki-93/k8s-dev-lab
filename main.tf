@@ -25,6 +25,10 @@ terraform {
       source  = "hashicorp/local"
       version = "~> 2.0"
     }
+    htpasswd = {
+      source  = "loafoe/htpasswd"
+      version = "1.5.0"
+    }
   }
 }
 
@@ -93,6 +97,7 @@ resource "local_file" "ca_key" {
   filename        = "${path.module}/aki-local.key"
   file_permission = "0600"
 }
+
 
 
 # ════════════════════════════════════════════════════════════
@@ -327,6 +332,20 @@ resource "kubernetes_secret" "root_ca_secret_argo" {
   depends_on = [kubernetes_namespace.argo_namespace]
 }
 
+data "local_file" "argo_admin_password" {
+  filename = "${path.module}/argocd-pwd.key"
+}
+
+resource "random_password" "salt" {
+    length  = 8
+}
+
+locals {
+  # Clean the password of any newlines/spaces
+  raw_pwd = trimspace(data.local_file.argo_admin_password.content)
+  # ArgoCD expects a bcrypt hash
+  hashed_pwd = bcrypt(local.raw_pwd)
+}
 resource "helm_release" "argo_cd" {
 
   name             = "argo-cd" #Release name
@@ -334,8 +353,16 @@ resource "helm_release" "argo_cd" {
   chart            = "argo-cd"
   version          = "5.51.6" # A stable standalone-compatible version
   namespace        = var.argo_namespace
-  create_namespace = true
 
+  set_sensitive {
+    name  = "configs.secret.argocdServerAdminPassword"
+    value = local.hashed_pwd
+  }
+
+  set{
+    name  = "configs.secret.argocdServerAdminPasswordMtime"
+    value = timestamp()
+  }
   values = [
     file("${path.module}/helm-values/argo-cd.yaml")
   ]
