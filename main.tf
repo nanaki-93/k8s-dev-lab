@@ -173,6 +173,10 @@ resource "helm_release" "metallb" {
 
   depends_on = [null_resource.kind_cluster]
 
+  wait          = true
+  wait_for_jobs = true
+  timeout       = 300
+
 }
 
 # Define the IP pool.
@@ -186,7 +190,7 @@ metadata:
   namespace: metallb-system
 spec:
   addresses:
-    - 172.18.0.100-172.18.0.150
+    - 172.19.0.100-172.19.0.150
 YAML
   depends_on = [helm_release.metallb]
 }
@@ -220,7 +224,12 @@ resource "helm_release" "nginx" {
   values = [
     file("${path.module}/helm-values/nginx.yaml")
   ]
-  depends_on = [helm_release.metallb]
+
+  depends_on = [
+    helm_release.metallb,
+    kubectl_manifest.metallb_ip_pool,
+    kubectl_manifest.metallb_l2_advertisement
+  ]
 }
 
 
